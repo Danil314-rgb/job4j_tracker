@@ -27,4 +27,17 @@ public class Item {
         return created;
     }
 
+    public Item() {
+
+    }
+
+    public Item(String name) {
+        this.name = name;
+    }
+
+    public Item(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
 }
