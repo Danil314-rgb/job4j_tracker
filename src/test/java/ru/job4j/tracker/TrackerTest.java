@@ -36,7 +36,7 @@ public class TrackerTest {
         tracker.add(new Item("Second"));
         tracker.add(new Item("First"));
         Item[] result = tracker.findByName(first.getName());
-        assertThat(result.length, is(8));
+        assertThat(result.length, is(3));
     }
 
     @Test
