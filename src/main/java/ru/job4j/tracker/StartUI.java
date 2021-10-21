@@ -2,7 +2,6 @@ package ru.job4j.tracker;
 
 
 import java.time.format.DateTimeFormatter;
-//import java.util.Scanner;
 
 public class StartUI {
 
