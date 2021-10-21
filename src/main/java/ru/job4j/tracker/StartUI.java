@@ -46,7 +46,7 @@ public class StartUI {
                 System.out.println("Enter id: ");
                 int id = Integer.parseInt(scanner.nextLine());
                 if (tracker.delete(id)) {
-                    System.out.println("Заявку успено удалена");
+                    System.out.println("Заявку успешно удалена");
                 } else {
                     System.out.println("Ошибка удаления заявки");
                 }
