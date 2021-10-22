@@ -6,9 +6,6 @@ public class Square implements Shape {
     public String draw() {
 
         String ln = System.lineSeparator();
-        return  " _____ " + ln +
-                "|    |" + ln +
-                "|    |" + ln +
-                " ----- " + ln;
+        return " _____ " + ln + "|    |" + ln + "|    |" + ln + " ----- " + ln;
     }
 }
