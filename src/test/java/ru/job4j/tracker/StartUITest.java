@@ -1,14 +1,13 @@
 package ru.job4j.tracker;
 
-import junit.framework.TestCase;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
-public class StartUITest extends TestCase {
+public class StartUITest {
 
-    @Test
+@Test
     public void testCreateItem() {
         String[] answers = {"Fix PC"};
         Input input = new StubInput(answers);
@@ -18,4 +17,5 @@ public class StartUITest extends TestCase {
         Item expected = new Item("Fix PC");
         assertThat(created.getName(), is(expected.getName()));
     }
+
 }
