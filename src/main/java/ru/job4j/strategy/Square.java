@@ -11,9 +11,4 @@ public class Square implements Shape {
                 "|    |" + ln +
                 " ----- " + ln;
     }
-
-    public static void main(String[] args) {
-        Square square = new Square();
-        System.out.println(new Square().draw());
-    }
 }
