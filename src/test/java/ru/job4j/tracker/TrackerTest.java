@@ -65,14 +65,4 @@ public class TrackerTest {
         assertThat(replaced.getName(), is("replaced item"));
     }
 
-    @Test
-    public void whenDeleteItem() {
-        Tracker tracker = new Tracker();
-        Item item = new Item();
-        tracker.add(item);
-        String[] answers = {String.valueOf(item.getId())};
-        StartUI.deleteItem(new StubInput(answers), tracker);
-        Item delete = tracker.findById(item.getId());
-        assertThat(delete.getId(), null);
-    }
 }
