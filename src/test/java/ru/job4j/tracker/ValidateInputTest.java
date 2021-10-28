@@ -37,10 +37,10 @@ public class ValidateInputTest {
     public void whenNegativeInput() {
         Output out = new StubOutput();
         Input in = new StubInput(
-                new String[]{"-1" }
+                new String[]{"-1"}
         );
         ValidateInput input = new ValidateInput(out, in);
-        int selected = input.askInt("Please enter validate data again");
+        int selected = input.askInt("Wrong input, you can select: 0 ..6");
         assertThat(selected, is(-1));
     }
 
