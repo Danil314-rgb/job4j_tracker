@@ -4,17 +4,18 @@ import java.util.Arrays;
 
 public final class SingleTracker {
 
-    private static Tracker tracker = new Tracker();
+    private static SingleTracker instance = null;
+    private Tracker tracker = new Tracker();
 
     private SingleTracker() {
 
     }
 
-    public static Tracker getInstance() {
-        if (tracker == null) {
-            tracker = new Tracker();
+    public static SingleTracker getInstance() {
+        if (instance == null) {
+            instance = new SingleTracker();
         }
-        return tracker;
+        return instance;
     }
 
     public Item add(Item item) {
@@ -22,27 +23,18 @@ public final class SingleTracker {
     }
 
     public Item findById(int id) {
-        int index = indexOf(id);
-        return index == -1 ? null : tracker.findById(id);
-    }
-
-    public int indexOf(int id) {
-        return id;
+        return tracker.findById(id);
     }
 
     public Item[] findByName(String key) {
-        return null;
-    }
-
-    public Item[] findAll() {
-        return null;
+        return tracker.findByName(key);
     }
 
     public boolean replace(int id, Item item) {
-        return false;
+        return tracker.replace(id, item);
     }
 
     public boolean delete(int id) {
-        return false;
+        return tracker.delete(id);
     }
 }
