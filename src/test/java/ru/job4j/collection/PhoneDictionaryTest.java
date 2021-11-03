@@ -31,13 +31,4 @@ public class PhoneDictionaryTest {
         assertThat(persons.get(0).getPhone(), is("534872"));
     }
 
-    @Test
-    public void findNull() {
-        PhoneDictionary phones = new PhoneDictionary();
-        phones.add(
-                new Person("Petr", "Arsentev", "534872", "Bryansk")
-        );
-        ArrayList<Person> persons = phones.find("887");
-        assertThat(persons.get(0).getPhone().length(), is(0));
-    }
 }
