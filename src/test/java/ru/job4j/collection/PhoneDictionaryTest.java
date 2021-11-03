@@ -1,10 +1,12 @@
 package ru.job4j.collection;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.*;
 
 public class PhoneDictionaryTest {
@@ -27,5 +29,15 @@ public class PhoneDictionaryTest {
         );
         ArrayList<Person> persons = phones.find("53");
         assertThat(persons.get(0).getPhone(), is("534872"));
+    }
+
+    @Test
+    public void findNull() {
+        PhoneDictionary phones = new PhoneDictionary();
+        phones.add(
+                new Person("Petr", "Arsentev", "534872", "Bryansk")
+        );
+        ArrayList<Person> persons = phones.find("887");
+        assertThat(persons.get(0).getPhone().length(), is(0));
     }
 }
