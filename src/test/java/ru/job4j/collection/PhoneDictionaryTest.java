@@ -30,5 +30,4 @@ public class PhoneDictionaryTest {
         ArrayList<Person> persons = phones.find("53");
         assertThat(persons.get(0).getPhone(), is("534872"));
     }
-
 }
