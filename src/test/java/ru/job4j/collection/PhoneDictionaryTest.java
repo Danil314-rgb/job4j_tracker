@@ -30,4 +30,14 @@ public class PhoneDictionaryTest {
         ArrayList<Person> persons = phones.find("53");
         assertThat(persons.get(0).getPhone(), is("534872"));
     }
+
+    @Test
+    public void findPhoneFalse() {
+        PhoneDictionary phones = new PhoneDictionary();
+        phones.add(
+                new Person("Petr", "Arsentev", "534872", "Bryansk")
+        );
+        ArrayList<Person> persons = phones.find("73");
+        assertTrue(persons.isEmpty());
+    }
 }
