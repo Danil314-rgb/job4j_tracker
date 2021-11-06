@@ -32,22 +32,18 @@ public class Tracker {
         return result;
     }
 
-    public Item[] findByName(String key) {
-        int count = 0;
-        Item[] result = new Item[items.size()];
-        for (int index = 0; index < items.size(); index++) {
-            Item item = items.get(index);
+    public List<Item> findByName(String key) {
+        List<Item> result = new ArrayList<>();
+        for (Item item : items) {
             if (item.getName().equals(key)) {
-                result[count] = item;
-                count++;
+                result.add(item);
             }
         }
-        result = Arrays.copyOf(result, count);
         return result;
     }
 
     public List<Item> findAll() {
-        return items;
+        return List.copyOf(items);
     }
 
     public boolean replace(int id, Item item) {
@@ -63,7 +59,7 @@ public class Tracker {
     public boolean delete(int id) {
         int index = indexOf(id);
         if (index > -1) {
-            items.remove(items.size() - 1);
+            items.remove(index);
             return true;
         }
         return false;
