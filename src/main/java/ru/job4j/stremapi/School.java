@@ -16,8 +16,9 @@ public class School {
     }
 
     public Map<String, Student> transformation(List<Student> students) {
-        return students.stream().distinct().collect(Collectors.toMap(
-                Student::getSurname, Student -> Student));
+        return students.stream().collect(Collectors.toMap(
+                Student::getSurname, student -> student, (k1, k2) -> k1)
+        );
     }
 
 }
