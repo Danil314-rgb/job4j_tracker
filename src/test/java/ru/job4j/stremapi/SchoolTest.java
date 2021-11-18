@@ -3,13 +3,33 @@ package ru.job4j.stremapi;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 public class SchoolTest {
+
+    @Test
+    public void whenTrans() {
+        List<Student> students = List.of(
+                new Student(10, "Surname1"),
+                new Student(40, "Surname4"),
+                new Student(10, "Surname1"),
+                new Student(40, "Surname4"),
+                new Student(90, "Surname9")
+        );
+        School sc = new School();
+        Map<String, Student> res = sc.transformation(students);
+        Map<String, Student> expected = new HashMap<>();
+        expected.put("Surname1", new Student(10, "Surname1"));
+        expected.put("Surname4", new Student(40, "Surname4"));
+        expected.put("Surname9", new Student(90, "Surname9"));
+        assertThat(res, is(expected));
+    }
 
     @Test
     public void whenCollectClassA() {
