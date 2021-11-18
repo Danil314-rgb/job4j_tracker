@@ -41,5 +41,4 @@ public class ProfilesTest {
         List<Address> expected = List.of(address2, address1);
         assertThat(result, is(expected));
     }
-
 }

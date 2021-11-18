@@ -17,8 +17,8 @@ public class Profiles {
     public List<Address> doubleColl(List<Profile> profiles) {
         return profiles.stream()
                 .map(Profile::getAddress)
-                .distinct()
                 .sorted(Comparator.comparing(Address::getCity).thenComparing(Address::getStreet))
+                .distinct()
                 .collect(Collectors.toList()
                 );
     }
