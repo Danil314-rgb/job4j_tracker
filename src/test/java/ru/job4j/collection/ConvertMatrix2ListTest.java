@@ -14,7 +14,7 @@ public class ConvertMatrix2ListTest {
     public void when() {
         ConvertMatrix2List list = new ConvertMatrix2List();
         int[][] input = {{1, 2}, {3, 4}};
-        List<Integer> expected = Arrays.asList(1, 2, 3, 4);
+        List<Integer> expected = List.of(1, 2, 3, 4);
         List<Integer> result = list.toList(input);
         assertThat(result, is(expected));
     }
