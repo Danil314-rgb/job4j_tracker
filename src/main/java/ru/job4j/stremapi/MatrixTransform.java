@@ -7,6 +7,6 @@ import java.util.stream.Stream;
 public class MatrixTransform {
 
     public static List<Integer> matrixTransform(List<List<Integer>> list) {
-        return list.stream().flatMap(l -> l.stream()).collect(Collectors.toList());
+        return Stream.of(list).flatMap(List::stream).flatMap(List::stream).collect(Collectors.toList());
     }
 }
