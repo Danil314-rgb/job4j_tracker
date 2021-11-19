@@ -1,9 +1,6 @@
 package ru.job4j.stremapi.bank;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class BankService {
 
@@ -25,11 +22,14 @@ public class BankService {
     }
 
     public User findByPassport(String passport) {
-        return users.keySet()
-                .stream()
-                .filter(u -> u.getPassport().equals(passport))
-                .findFirst()
-                .orElse(null);
+        User rsl = null;
+        for (User user : users.keySet()) {
+            if (user.getPassport().equals(passport)) {
+                rsl = user;
+                break;
+            }
+        }
+        return rsl;
     }
 
     public Account findByRequisite(String passport, String requisite) {
