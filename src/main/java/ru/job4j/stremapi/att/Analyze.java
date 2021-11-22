@@ -42,7 +42,7 @@ public class Analyze {
                 .max(Comparator.comparing(tuple -> tuple.hashCode())).get();
     }
 
-    public static Tuple bestSubject(Stream<Pupil> stream) { //возвращает предмет с наибольшим баллом для всех студентов.
+    public static Tuple bestSubject(Stream<Pupil> stream) {
         return null;
     }
 }
