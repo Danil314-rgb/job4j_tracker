@@ -30,7 +30,7 @@ public class Analyze {
                 .entrySet()
                 .stream()
                 .map(t -> new Tuple(t.getKey(), t.getValue()))
-                .collect(Collectors.toCollection(LinkedList::new));
+                .collect(Collectors.toList());
     }
 
     public static Tuple bestStudent(Stream<Pupil> stream) {
@@ -39,10 +39,17 @@ public class Analyze {
                                 .stream()
                                 .mapToInt(Subject::getScore)
                                 .sum()))
-                .max(Comparator.comparing(tuple -> tuple.hashCode())).get();
+                .max(Comparator.comparing(Tuple::getScore)).orElse(null);
     }
 
     public static Tuple bestSubject(Stream<Pupil> stream) {
-        return null;
+        return stream.flatMap(s -> s.getSubjects().stream())
+                .collect(Collectors.groupingBy(Subject::getName, LinkedHashMap::new,
+                        Collectors.summingDouble(Subject::getScore)))
+                .entrySet()
+                .stream()
+                .map(t -> new Tuple(t.getKey(), t.getValue()))
+                .max(Comparator.comparing(Tuple::getScore))
+                .orElse(null);
     }
 }
