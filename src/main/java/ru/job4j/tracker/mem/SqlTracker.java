@@ -4,7 +4,6 @@ import ru.job4j.tracker.mem.tracker.model.Item;
 
 import java.io.InputStream;
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -37,12 +36,6 @@ public class SqlTracker implements Store, AutoCloseable {
 
     @Override
     public Item add(Item item) {
-        try (PreparedStatement stat =
-                     cn.prepareStatement("create table if not exists items(id serial primary key, name text, created timestamp);")) {
-            stat.execute();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         try (PreparedStatement statement =
                      cn.prepareStatement("insert into items(name, created) values (?, ?)",
                              Statement.RETURN_GENERATED_KEYS)) {
@@ -51,7 +44,7 @@ public class SqlTracker implements Store, AutoCloseable {
             statement.setString(1, item.getName());
             statement.setTimestamp(2, timestamp);
             statement.execute();
-            try (ResultSet generatedKeys  = statement.getGeneratedKeys()) {
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     item.setId(generatedKeys.getInt(1));
                 }
@@ -66,9 +59,12 @@ public class SqlTracker implements Store, AutoCloseable {
     public boolean replace(int id, Item item) {
         boolean result = false;
         try (PreparedStatement statement =
-                     cn.prepareStatement("update items set name = ? where id = ?")) {
+                     cn.prepareStatement("update items set name = ?, created = ? where id = ?")) {
+            long millis = System.currentTimeMillis();
+            Timestamp timestamp = new Timestamp(millis);
             statement.setString(1, item.getName());
-            statement.setInt(2, id);
+            statement.setTimestamp(2, timestamp);
+            statement.setInt(3, id);
             result = statement.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
@@ -96,16 +92,7 @@ public class SqlTracker implements Store, AutoCloseable {
                      cn.prepareStatement("select * from items")) {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    long millis = System.currentTimeMillis();
-                    Timestamp timestamp = new Timestamp(millis);
-                    LocalDateTime localDateTime = timestamp.toLocalDateTime();
-                    Timestamp timestampFromLDT  = Timestamp.valueOf(localDateTime);
-
-                   /* items.add(new Item(
-                            resultSet.getInt("id"),
-                            resultSet.getString("name"),
-                            resultSet.getTime("created")
-                    ));*/
+                    items.add((itemNewItem(resultSet)));
                 }
             }
         } catch (Exception e) {
@@ -116,22 +103,19 @@ public class SqlTracker implements Store, AutoCloseable {
 
     @Override
     public Item findById(int id) {
-        Item item;
+        Item item = null;
         try (PreparedStatement statement =
                      cn.prepareStatement("select * from items where id = ?")) {
+            statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
-                statement.setInt(1, id);
-                /*item = new Item(
-                        resultSet.getInt("id"),
-                        resultSet.getString("name"),
-                        resultSet.getDate("created")
-                );         */
+                if (resultSet.next()) {
+                    item = itemNewItem(resultSet);
+                }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return /* item*/ null;
+        return item;
     }
 
     @Override
@@ -139,22 +123,24 @@ public class SqlTracker implements Store, AutoCloseable {
         List<Item> items = new ArrayList<>();
         try (PreparedStatement statement =
                      cn.prepareStatement("select * from items where name = ?")) {
+            statement.setString(1, key);
             try (ResultSet resultSet = statement.executeQuery()) {
-                statement.setString(1, key);
                 while (resultSet.next()) {
-                    /*Timestamp timestamp = Timestamp.valueOf(items.getDate);
-                    items.add(new Item(
-                            resultSet.getInt("id"),
-                            resultSet.getString("name"),
-                            resultSet.getTimestamp("created")
-                    ));*/
-                    System.out.println();
+                    items.add((itemNewItem(resultSet)));
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
         return items;
     }
+
+    public Item itemNewItem(ResultSet resultSet) throws SQLException {
+        return new Item(
+                resultSet.getInt("id"),
+                resultSet.getString("name"),
+                resultSet.getTimestamp("created").toLocalDateTime()
+        );
+    }
+
 }
