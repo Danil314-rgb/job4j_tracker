@@ -1,19 +1,19 @@
 package ru.job4j.tracker.mem.tracker;
 
 import ru.job4j.tracker.mem.SqlTracker;
+import ru.job4j.tracker.mem.Store;
 import ru.job4j.tracker.mem.tracker.action.*;
 import ru.job4j.tracker.mem.tracker.input.ConsoleInput;
 import ru.job4j.tracker.mem.tracker.input.Input;
 import ru.job4j.tracker.mem.tracker.input.ValidateInput;
 import ru.job4j.tracker.mem.tracker.output.ConsoleOutput;
 import ru.job4j.tracker.mem.tracker.output.Output;
-import ru.job4j.tracker.mem.tracker.store.MemTracker;
 
 import java.util.List;
 
 public class StartUI {
 
-    public void init(Input input, MemTracker tracker, List<UserAction> actions) {
+    public void init(Input input, Store tracker, List<UserAction> actions) {
         boolean run = true;
         while (run) {
             showMenu(actions);
