@@ -39,10 +39,8 @@ public class SqlTracker implements Store, AutoCloseable {
         try (PreparedStatement statement =
                      cn.prepareStatement("insert into items(name, created) values (?, ?)",
                              Statement.RETURN_GENERATED_KEYS)) {
-            long millis = System.currentTimeMillis();
-            Timestamp timestamp = new Timestamp(millis);
             statement.setString(1, item.getName());
-            statement.setTimestamp(2, timestamp);
+            statement.setTimestamp(2, Timestamp.valueOf(item.getCreated()));
             statement.execute();
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
@@ -60,10 +58,8 @@ public class SqlTracker implements Store, AutoCloseable {
         boolean result = false;
         try (PreparedStatement statement =
                      cn.prepareStatement("update items set name = ?, created = ? where id = ?")) {
-            long millis = System.currentTimeMillis();
-            Timestamp timestamp = new Timestamp(millis);
             statement.setString(1, item.getName());
-            statement.setTimestamp(2, timestamp);
+            statement.setTimestamp(2, Timestamp.valueOf(item.getCreated()));
             statement.setInt(3, id);
             result = statement.executeUpdate() > 0;
         } catch (Exception e) {
