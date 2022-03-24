@@ -6,6 +6,7 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public class HibernateRun {
@@ -15,18 +16,17 @@ public class HibernateRun {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure().build();
         try {
-            SessionFactory sf = new MetadataSources(registry).buildMetadata().buildSessionFactory();
-            Item item = create(new Item("Learn"), sf);
-            System.out.println(item);
-            update(item, sf);
-            System.out.println(item);
-            Item res = findById(item.getId(), sf);
-            System.out.println(res);
-            delete(res.getId(), sf);
-            List<Item> list = findAll(sf);
-            for (Item it : list) {
-                System.out.println(it);
-            }
+            SessionFactory sf = new MetadataSources(registry)
+                    .buildMetadata()
+                    .buildSessionFactory();
+            Session session =  sf.openSession();
+            session.beginTransaction();
+
+            Item item = Item.of("Home", "New", new Timestamp(1459510232000L));
+            session.save(item);
+
+            session.getTransaction().commit();
+            session.close();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -54,7 +54,7 @@ public class HibernateRun {
     public static void delete(Integer id, SessionFactory sf) {
         Session session = sf.openSession();
         session.beginTransaction();
-        Item item = new Item(null);
+        Item item = new Item();
         item.setId(id);
         session.delete(item);
         session.getTransaction().commit();

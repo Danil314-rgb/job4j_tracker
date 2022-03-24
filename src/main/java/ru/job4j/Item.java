@@ -1,6 +1,7 @@
 package ru.job4j;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
@@ -10,12 +11,31 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+    private String description;
+    private Timestamp created;
 
-    public Item() {
+    public static Item of(String name, String description, Timestamp created) {
+        Item item = new Item();
+        item.name = name;
+        item.description = description;
+        item.created = created;
+        return item;
     }
 
-    public Item(String name) {
-        this.name = name;
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Timestamp getCreated() {
+        return created;
+    }
+
+    public void setCreated(Timestamp created) {
+        this.created = created;
     }
 
     public Integer getId() {
@@ -46,13 +66,5 @@ public class Item {
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
-    }
-
-    @Override
-    public String toString() {
-        return "{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                '}';
     }
 }
